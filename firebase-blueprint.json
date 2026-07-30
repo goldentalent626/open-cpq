@@ -1,0 +1,147 @@
+{
+  "entities": {
+    "Resource": {
+      "title": "Resource",
+      "description": "A basic resource (material, labor, etc.)",
+      "type": "object",
+      "properties": {
+        "idStr": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "unitCost": { "type": "number" },
+        "unitMeasure": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["idStr", "name", "category", "unitCost", "unitMeasure"]
+    },
+    "PriceListItem": {
+      "title": "PriceListItem",
+      "description": "An item from the pricelist",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "cost": { "type": "number" },
+        "suggestedPrice": { "type": "number" },
+        "category": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPrices": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "customerId": { "type": "string" },
+              "customerName": { "type": "string" },
+              "price": { "type": "number" },
+              "customerCode": { "type": "string" }
+            },
+            "required": ["customerId", "customerName", "price"]
+          }
+        },
+        "sourceId": { "type": "string" },
+        "sourceType": { "type": "string", "enum": ["resource", "kit"] }
+      },
+      "required": ["code", "name", "cost", "suggestedPrice", "category"]
+    },
+    "SoftwareAsset": {
+      "title": "SoftwareAsset",
+      "description": "A software asset",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "licenseCost": { "type": "number" },
+        "licenseType": { "type": "string" },
+        "setupHours": { "type": "number" },
+        "trainingHours": { "type": "number" }
+      },
+      "required": ["name", "licenseCost", "licenseType", "setupHours", "trainingHours"]
+    },
+    "CompositeComponent": {
+      "title": "CompositeComponent",
+      "description": "A composite component (kit)",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "markupPercent": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "subItems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "resourceId": { "type": "string" },
+              "quantity": { "type": "number" }
+            },
+            "required": ["resourceId", "quantity"]
+          }
+        }
+      },
+      "required": ["name", "description", "markupPercent", "subItems"]
+    },
+    "Quote": {
+      "title": "Quote",
+      "description": "A quote",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "customerName": { "type": "string" },
+        "type": { "type": "string" },
+        "status": { "type": "string" },
+        "origin": { "type": "string" },
+        "totalCost": { "type": "number" },
+        "totalPrice": { "type": "number" },
+        "totalRecurring": { "type": "number" },
+        "marginPercent": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "description": { "type": "string" },
+        "version": { "type": "number" },
+        "validUntil": { "type": "string" },
+        "parentQuoteId": { "type": "string" },
+        "deliveryDate": { "type": "string" },
+        "paymentTerms": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "category": { "type": "string" },
+              "quantity": { "type": "number" },
+              "unitCost": { "type": "number" },
+              "unitPrice": { "type": "number" },
+              "markupPercent": { "type": "number" },
+              "hours": { "type": "number" },
+              "isFixedPrice": { "type": "boolean" },
+              "billingFrequency": { "type": "string" }
+            },
+            "required": ["name", "category", "quantity", "unitCost", "unitPrice", "markupPercent"]
+          }
+        }
+      },
+      "required": ["title", "customerName", "type", "status", "origin", "totalCost", "totalPrice", "totalRecurring", "marginPercent", "createdAt", "version", "items"]
+    }
+  },
+  "firestore": {
+    "/resources/{resourceId}": {
+      "schema": { "$ref": "#/entities/Resource" },
+      "description": "Resources collection"
+    },
+    "/pricelist_items/{itemId}": {
+      "schema": { "$ref": "#/entities/PriceListItem" },
+      "description": "Pricelist items collection"
+    },
+    "/software_assets/{assetId}": {
+      "schema": { "$ref": "#/entities/SoftwareAsset" },
+      "description": "Software assets collection"
+    },
+    "/composite_components/{componentId}": {
+      "schema": { "$ref": "#/entities/CompositeComponent" },
+      "description": "Composite components collection"
+    },
+    "/quotes/{quoteId}": {
+      "schema": { "$ref": "#/entities/Quote" },
+      "description": "Quotes collection"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "OpenCPQ",
+  "description": "Sistema professionale CPQ (Configure, Price, Quote) per la gestione di preventivi, calcolo margini e workflow di approvazione.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,11 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Secure default for the public template. Replace these rules with an
+    // authorization model appropriate for your deployment.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
